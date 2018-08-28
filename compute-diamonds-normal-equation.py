@@ -41,6 +41,8 @@ def convert_nums(diamond):
     diamond[2] = color_table[diamond[2]]
     diamond[3] = clarity_table[diamond[3]]
 
+    diamond[4] = float(diamond[4]) * float(diamond[5]) * float(diamond[6])
+
 def load_data(input_diamonds):
     f_diamonds = open(input_diamonds, newline='')
     d_reader = csv.reader(f_diamonds, delimiter=',')
@@ -57,18 +59,27 @@ def load_data(input_diamonds):
     # Doesn't normalize price
     max_params[9] = 1
 
-    # Normalization
-    for diamond in d_list:
-        for i in range(0,9):
-            diamond[i] = float(diamond[i])/max_params[i]
+    ## Normalization
+    #for diamond in d_list:
+    #    for i in range(0,9):
+    #        diamond[i] = float(diamond[i])/max_params[i]
+
+    # Since we conveted x,y,z to volume, remove the y and z columns
+    d_list = numpy.array(d_list, dtype=float)
+    d_list = numpy.delete(d_list, 5, 1)
+    d_list = numpy.delete(d_list, 5, 1)
+
+    max_params = numpy.array(max_params, dtype=float)
+    max_params = numpy.delete(max_params, 5, 0)
+    max_params = numpy.delete(max_params, 5, 0)
 
     return d_list
 
 def compute_params_normal_equation(diamonds):
     np_X = numpy.array(diamonds,dtype=float)
-    np_Y = np_X[:,9]
+    np_Y = np_X[:,7]
     np_Y.transpose()
-    np_X = numpy.delete(np_X, 9, 1)
+    np_X = numpy.delete(np_X, 7, 1)
     np_Xt = np_X.transpose()
 
     np_XtX = numpy.dot(np_Xt, np_X)
@@ -79,8 +90,8 @@ def compute_params_normal_equation(diamonds):
 
 def mean_squared_error(validation, theta):
     validation_X = numpy.array(validation,dtype=float)
-    validation_Y = validation_X[:,9]
-    validation_X = numpy.delete(validation_X, 9, 1)
+    validation_Y = validation_X[:,7]
+    validation_X = numpy.delete(validation_X, 7, 1)
 
     theta_Y = numpy.dot(validation_X, theta)
     err = 0
@@ -94,8 +105,8 @@ def mean_squared_error(validation, theta):
 
 def plot_results(validation, theta):
     validation_X = numpy.array(validation,dtype=float)
-    validation_Y = validation_X[:,9]
-    validation_X = numpy.delete(validation_X, 9, 1)
+    validation_Y = validation_X[:,7]
+    validation_X = numpy.delete(validation_X, 7, 1)
     
     plt.scatter(validation_X[:,4], validation_Y, color='black')
     theta_predict_Y = numpy.dot(validation_X, theta)

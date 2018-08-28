@@ -43,6 +43,8 @@ def convert_nums(diamond):
     diamond[2] = color_table[diamond[2]]
     diamond[3] = clarity_table[diamond[3]]
 
+    diamond[4] = float(diamond[4]) * float(diamond[5]) * float(diamond[6])
+
 def load_data(input_diamonds):
     f_diamonds = open(input_diamonds, newline='')
     d_reader = csv.reader(f_diamonds, delimiter=',')
@@ -59,10 +61,19 @@ def load_data(input_diamonds):
     # Doesn't normalize price
     max_params[9] = 1
 
+    # Since we conveted x,y,z to volume, remove the y and z columns
+    d_list = numpy.array(d_list, dtype=float)
+    d_list = numpy.delete(d_list, 5, 1)
+    d_list = numpy.delete(d_list, 5, 1)
+
+    max_params = numpy.array(max_params, dtype=float)
+    max_params = numpy.delete(max_params, 5, 0)
+    max_params = numpy.delete(max_params, 5, 0)
+
     # Normalization
-    for diamond in d_list:
-        for i in range(0,9):
-            diamond[i] = float(diamond[i])/max_params[i]
+    #for diamond in d_list:
+    #    for i in range(0,7):
+    #        diamond[i] = float(diamond[i])/max_params[i]
 
     return d_list
 
@@ -70,14 +81,14 @@ def compute_params_SGDR(diamonds, validation, _it):
     np_X = numpy.array(diamonds,dtype=float)
     np_X_validation = numpy.array(validation,dtype=float)
 
-    np_Y = np_X[:,9]
-    np_Y_validation = np_X_validation[:,9]
+    np_Y = np_X[:,7]
+    np_Y_validation = np_X_validation[:,7]
 
     np_Y.transpose()
     np_Y_validation.transpose()
 
-    np_X = numpy.delete(np_X, 9, 1)
-    np_X_validation = numpy.delete(np_X_validation, 9, 1)
+    np_X = numpy.delete(np_X, 7, 1)
+    np_X_validation = numpy.delete(np_X_validation, 7, 1)
 
     regr = linear_model.SGDRegressor(max_iter=_it, eta0=0.001)
     regr.fit(np_X, np_Y)

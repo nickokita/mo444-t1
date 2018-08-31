@@ -2,9 +2,11 @@ import csv
 import sys
 import numpy
 import matplotlib.pyplot as plt
+import time
+
 from sklearn import datasets, linear_model
 from sklearn.metrics import mean_squared_error
-import time
+from sklearn.feature_selection import VarianceThreshold
 
 def convert_nums(diamond):
     cut_table = {

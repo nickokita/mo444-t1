@@ -1,0 +1,119 @@
+Lambda = 1
+Mean squared error = 740098.394905191
+Mean squared error = 742108.9356270346
+
+Lambda = 2
+Mean squared error = 740106.4104808572
+Mean squared error = 742261.677542042
+
+Lambda = 4
+Mean squared error = 740138.7913817775
+Mean squared error = 742594.0235654726
+
+Lambda = 8
+Mean squared error = 740271.061525247
+Mean squared error = 743369.6409060464
+
+Lambda = 16
+Mean squared error = 740823.4154072283
+Mean squared error = 745393.9233697382
+
+Lambda = 32
+Mean squared error = 743237.6063010602
+Mean squared error = 751596.6521931349
+
+Lambda = 64
+Mean squared error = 754883.9332237768
+Mean squared error = 775254.0825443817
+
+Lambda = 128
+Mean squared error = 825999.8855892402
+Mean squared error = 902614.6855938832
+
+Lambda = 256
+Mean squared error = 1742767.7901246203
+Mean squared error = 2661985.652451961
+
+Lambda = 512
+Mean squared error = 24067496.129607283
+Mean squared error = 34665650.07561943
+
+Lambda = 1024
+Mean squared error = 2581968.9275410697
+Mean squared error = 3842292.508935036
+
+Lambda = 2048
+Mean squared error = 5222858.840198626
+Mean squared error = 7276928.124546698
+
+Lambda = 4096
+Mean squared error = 1740334.3556152775
+Mean squared error = 2032094.0501578068
+
+Lambda = 8192
+Mean squared error = 1549874.1042301483
+Mean squared error = 1781375.4647345894
+
+Lambda = 16384
+Mean squared error = 1698616.6502036813
+Mean squared error = 1942230.4724441497
+
+Lambda = 32768
+Mean squared error = 3730597.4898622795
+Mean squared error = 4085511.5276811593
+
+Lambda = 65536
+Mean squared error = 95750945.25322373
+Mean squared error = 95821519.65705582
+
+Lambda = 131072
+Mean squared error = 91687335.02553493
+Mean squared error = 95792470.46312746
+
+Lambda = 262144
+Mean squared error = 205964426.80859575
+Mean squared error = 203978706.79131085
+
+Lambda = 524288
+Mean squared error = 15291024.199691461
+Mean squared error = 15267746.29173495
+
+Lambda = 1048576
+Mean squared error = 10357536.761097614
+Mean squared error = 10325395.522002775
+
+Lambda = 2097152
+Mean squared error = 8955484.009555072
+Mean squared error = 8923790.431781892
+
+Lambda = 4194304
+Mean squared error = 8397279.654835856
+Mean squared error = 8366499.434442524
+
+Lambda = 8388608
+Mean squared error = 8149065.729883471
+Mean squared error = 8118808.341953275
+
+Lambda = 16777216
+Mean squared error = 8045786.182375005
+Mean squared error = 8015678.684733312
+
+Lambda = 33554432
+Mean squared error = 8063005.9650349
+Mean squared error = 8032692.749154376
+
+Lambda = 67108864
+Mean squared error = 8431850.923786437
+Mean squared error = 8400855.70165694
+
+Lambda = 134217728
+Mean squared error = 11466483.956599252
+Mean squared error = 11434357.75159567
+
+Lambda = 268435456
+Mean squared error = 141910261.93863052
+Mean squared error = 141933798.2766574
+
+Lambda = 536870912
+Mean squared error = 61979351.081783906
+Mean squared error = 62002590.549146876

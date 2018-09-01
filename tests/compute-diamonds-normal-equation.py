@@ -52,6 +52,14 @@ def pol2(diamond):
             diamond.append(float(diamond[i])*float(diamond[j]))
     return diamond
 
+def pol3(diamond):
+    _size = len(diamond)-1
+    for i in range(0,_size):
+        for j in range(i+9,_size):
+            if i != 9 and j != 9:
+                diamond.append(float(diamond[i])*float(diamond[j]))
+    return diamond
+
 def load_data(input_diamonds):
     f_diamonds = open(input_diamonds, newline='')
     d_reader = csv.reader(f_diamonds, delimiter=',')
@@ -96,9 +104,9 @@ def mean_squared_error(validation, theta):
 
     for i in range(0, len(theta_Y) - 1):
         err += (validation_Y[i] - theta_Y[i])*(validation_Y[i] - theta_Y[i])
-        if (err > 150000*150000):
-            err -= (validation_Y[i] - theta_Y[i])*(validation_Y[i] - theta_Y[i])
-            out += 1
+        #if (err > 150000*150000):
+        #    err -= (validation_Y[i] - theta_Y[i])*(validation_Y[i] - theta_Y[i])
+        #    out += 1
 
     err = err/(2*(len(theta_Y) - out))
 

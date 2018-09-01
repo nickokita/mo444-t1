@@ -1,7 +1,7 @@
 import csv
 import sys
 import numpy
-import matplotlib.pyplot as plt
+#import matplotlib.pyplot as plt
 import time
 
 from sklearn import datasets, linear_model
@@ -57,7 +57,7 @@ def pol3(diamond):
     for i in range(0,_size):
         for j in range(i,_size):
             diamond.append(float(diamond[i])*float(diamond[j]))
-            for k in range(k,_size):
+            for k in range(j,_size):
                 diamond.append(float(diamond[i])*float(diamond[j])*float(diamond[k]))
     return diamond
 
@@ -67,7 +67,7 @@ def load_data(input_diamonds):
     d_list = list(d_reader)
     d_list.pop(0)
 
-    max_params = [0] * 100
+    max_params = [0] * 1000
     for diamond in d_list:
         convert_nums(diamond)
         pol3(diamond)
@@ -110,37 +110,27 @@ def compute_params_SGDR(diamonds, validation, _it):
     print("Mean squared error: %.2f"
       % mean_squared_error(np_Y_validation, diamonds_y_pred))
 
-    plt.scatter(np_X_validation[:,1], np_Y_validation, color='black')
-    plt.scatter(np_X_validation[:,1], diamonds_y_pred, color='blue')
+    #plt.scatter(np_X_validation[:,1], np_Y_validation, color='black')
+    #plt.scatter(np_X_validation[:,1], diamonds_y_pred, color='blue')
 
-    plt.xticks()
-    plt.yticks()
-
-    theta = numpy.hstack((regr.intercept_, regr.coef_))
+    #plt.xticks()
+    #plt.yticks()
 
     #plt.show()
 
-    return theta 
+    return regr 
 
-def _mean_squared_error(validation, theta):
+def _mean_squared_error(validation, regr):
     validation_X = numpy.array(validation,dtype=float)
     price = 10 
     validation_Y = validation_X[:,price]
+    print(validation_Y)
     validation_X = numpy.delete(validation_X, price, 1)
 
-    theta_Y = numpy.dot(validation_X, theta)
-    err = 0
-    out = 0
+    theta_Y = regr.predict(validation_X)
 
-    for i in range(0, len(theta_Y) - 1):
-        err += (validation_Y[i] - theta_Y[i])*(validation_Y[i] - theta_Y[i])
-        if (err > 150000*150000):
-            err -= (validation_Y[i] - theta_Y[i])*(validation_Y[i] - theta_Y[i])
-            out += 1
-
-    err = err/(2*(len(theta_Y) - out))
-
-    print("Mean squared error = " + str(err))
+    print("Mean squared error: %.2f"
+      % mean_squared_error(validation_Y, theta_Y))
 
 def main():
     if (len(sys.argv) < 3):
@@ -151,15 +141,15 @@ def main():
     diamonds_train = diamonds[:len(diamonds)-8091]
     diamonds_valid = diamonds[len(diamonds)-8091:]
     if (len(sys.argv) == 3):
-        iterations = 1000
+        iterations = 1
     else:
         iterations = int(sys.argv[3])
         
-    theta = compute_params_SGDR(diamonds_train, diamonds_valid, iterations)
+    regr = compute_params_SGDR(diamonds_train, diamonds_valid, iterations)
 
     validation = load_data(sys.argv[2])
     print("Test")
-    _mean_squared_error(validation, theta)
+    _mean_squared_error(validation, regr)
 
 if __name__ == "__main__":
         main()

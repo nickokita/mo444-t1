@@ -53,12 +53,15 @@ def pol2(diamond):
     return diamond
 
 def select_features(d_list, mask):
+    features = []
     for i in range(len(d_list[0])-1,-1,-1):
         select = 2**i
         if mask & select:
-            print(mask & select)
+            features.append(i)
         else:
             d_list = numpy.delete(d_list, i, 1)
+
+    print("Features selected = " + str(features))
     return d_list
 
 def load_data(input_diamonds, output_prices, mask):
@@ -118,13 +121,23 @@ def plot_results(validation, prices, theta):
     
     #plt.show()
 
+def print_stars():
+    stars = ['*'] * 80
+    for star in stars:
+        sys.stdout.write(star)
+    sys.stdout.flush()
+    print()
 
 def main():
     if (len(sys.argv) != 4):
         print("ERROR: Usage python3 compute-diamonds.py (train-data) (test-data) mask")
         return
 
+    print_stars()
     mask = int(sys.argv[3])
+    print("Mask = " + str(mask))
+    print_stars()
+    print("Training and Validation")
     diamonds_prices = []
     diamonds = load_data(sys.argv[1], diamonds_prices, mask)
     diamonds_prices = numpy.array(diamonds_prices[0], dtype=float)
@@ -136,17 +149,19 @@ def main():
 
     theta = compute_params_normal_equation(diamonds_train, diamonds_prices_train)
 
-    print("Validation")
     _mean_squared_error(diamonds_valid, diamonds_prices_valid, theta)
 
-    print("Test")
+    print_stars()
+    print("Testing")
     validation_prices = []
     validation = load_data(sys.argv[2], validation_prices, mask)
     validation_prices = numpy.array(validation_prices[0], dtype=float)
     _mean_squared_error(validation, validation_prices, theta)
     plot_results(validation, validation_prices, theta)
 
-    print(theta)
+    print_stars()
+    print("Model: " + str(theta))
+    print_stars()
 
 if __name__ == "__main__":
         main()

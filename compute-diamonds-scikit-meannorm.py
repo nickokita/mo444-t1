@@ -85,7 +85,7 @@ def load_data(input_diamonds, output_prices, mask):
     #Normalization
     for diamond in d_list:
         for i in range(0,9):
-            diamond[i] = float(diamond[i])/max_params[i]
+            diamond[i] = float((diamond[i])-max_params[i]/2)/max_params[i]
 
     output_prices.append(d_list[:,9])
     d_list = numpy.delete(d_list, 9, 1)
@@ -95,7 +95,7 @@ def load_data(input_diamonds, output_prices, mask):
 
     return d_list
 
-def compute_params_SGDR(diamonds, prices, validation, validation_prices, _it, _lr):
+def compute_params_SGDR(diamonds, prices, validation, validation_prices, _it):
     np_X = numpy.array(diamonds,dtype=float)
     np_X_validation = numpy.array(validation,dtype=float)
 
@@ -105,7 +105,7 @@ def compute_params_SGDR(diamonds, prices, validation, validation_prices, _it, _l
     np_Y.transpose()
     np_Y_validation.transpose()
 
-    regr = linear_model.SGDRegressor(max_iter=_it, eta0=_lr)
+    regr = linear_model.SGDRegressor(max_iter=_it, eta0=0.001, verbose=1)
     regr.fit(np_X, np_Y)
     diamonds_y_pred = regr.predict(np_X_validation)
     
@@ -116,6 +116,14 @@ def compute_params_SGDR(diamonds, prices, validation, validation_prices, _it, _l
       % mean_squared_error(np_Y_validation, diamonds_y_pred))
     print("R2 Score: %.2f"
       % r2_score(np_Y_validation, diamonds_y_pred))
+
+    #plt.scatter(np_X_validation[:,1], np_Y_validation, color='black')
+    #plt.scatter(np_X_validation[:,1], diamonds_y_pred, color='blue')
+
+    #plt.xticks()
+    #plt.yticks()
+
+    #plt.show()
 
     return regr 
 
@@ -140,19 +148,14 @@ def print_stars():
 
 def main():
     if (len(sys.argv) < 3):
-        print("ERROR: Usage python3 compute-diamonds.py (train-data) (test-data) [iterations] [learning rate]")
+        print("ERROR: Usage python3 compute-diamonds.py (train-data) (test-data) [iterations]")
         return
 
     mask = 1023
-    if (len(sys.argv) >= 3):
-        iterations = int(sys.argv[3])
-    else:
+    if (len(sys.argv) == 3):
         iterations = 1
-
-    if (len(sys.argv) >= 4):
-        learning_rate = float(sys.argv[4])
     else:
-        learning_rate = 0.01
+        iterations = int(sys.argv[3])
         
     print_stars()
     print("Training and Validation")
@@ -165,8 +168,7 @@ def main():
     diamonds_prices_train = diamonds_prices[:len(diamonds_prices)-8091]
     diamonds_prices_valid = diamonds_prices[len(diamonds_prices)-8091:]
 
-    regr = compute_params_SGDR(diamonds_train, diamonds_prices_train, diamonds_valid, 
-            diamonds_prices_valid, iterations, learning_rate)
+    regr = compute_params_SGDR(diamonds_train, diamonds_prices_train, diamonds_valid, diamonds_prices_valid, iterations)
 
     print_stars()
     print("Testing")

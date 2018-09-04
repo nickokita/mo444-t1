@@ -104,9 +104,9 @@ def _mean_squared_error(validation, prices, theta):
     theta_Y = numpy.dot(validation_X, theta)
 
     print("Mean squared error: %.2f"
-      % mean_squared_error(validation_Y, theta_Y))
+      % float(mean_squared_error(validation_Y, theta_Y)/2))
     print("R2 Score: %.2f"
-      % r2_score(validation_Y, theta_Y))
+      % float(r2_score(validation_Y, theta_Y)))
 
 def plot_results(validation, prices, theta):
     validation_X = numpy.array(validation,dtype=float)
